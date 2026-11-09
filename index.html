@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="true">
+<title>CSCA 学习站</title>
+<meta name="description" content="Подготовка к CSCA: слова, теория и задачи по математике, физике и техническому китайскому на китайском языке.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b4382c'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='white' font-family='sans-serif'%3E学%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="topin">
+    <button class="brand" data-nav="home"><span class="seal">学</span><span><b>CSCA 学习站</b><small>слова · теория · задачи</small></span></button>
+    <nav class="nav" aria-label="Разделы">
+      <button data-nav="vocab">Слова</button>
+      <button data-nav="m"><span class="zh">数学</span></button>
+      <button data-nav="p"><span class="zh">物理</span></button>
+      <button data-nav="l"><span class="zh">中文</span></button>
+    </nav>
+    <div class="tgs">
+      <button class="tg" id="tgRuby" aria-pressed="false" title="Пиньинь над подсвеченными словами"><i></i>拼音</button>
+      <button class="tg" id="tgSound" aria-pressed="true" title="Произносить слово при нажатии"><i></i>Звук</button>
+    </div>
+  </div>
+</header>
+<main id="app" class="wrap"></main>
+<footer class="wrap foot">
+  <p class="muted small">Прогресс хранится только в этом браузере. Чтобы перенести его на другое устройство, скопируйте и вставьте его там.</p>
+  <div class="acts">
+    <button class="btn sm" data-act="export">Скопировать прогресс</button>
+    <button class="btn sm" data-act="import">Загрузить</button>
+    <button class="btn sm" data-act="reset">Сбросить</button>
+  </div>
+  <textarea id="xfer" hidden rows="3" aria-label="Прогресс в виде текста"></textarea>
+  <p class="muted small">Тренировочные задания составлены в формате CSCA. Задания с пометкой «CSCA дата · №» восстановлены по материалам прошедших экзаменов.</p>
+</footer>
+<div id="pop" class="pop" hidden role="dialog" aria-label="Перевод слова"></div>
+<div id="toast" class="toast" hidden role="status"></div>
+<script src="data/vocab.js"></script>
+<script src="data/theory.js"></script>
+<script src="data/tasks.js"></script>
+<script src="data/real.js"></script>
+<script src="data/konspekt_m.js"></script>
+<script src="data/konspekt_p.js"></script>
+<script src="data/konspekt_l.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
