@@ -15,7 +15,7 @@ const L = 'ABCDEF', DAY = 864e5, INT = [0, 1, 3, 7, 14, 30];
 const TASKS = [];
 (function () {
   const cnt = {};
-  const add = b => { const t = { s: b[0], t: b[1], q: b[2], o: b[3], r: b[4] || '', e: b[5] || '', p: b[6] || null, src: b[7] || '' };
+  const add = b => { const t = { s: b[0], t: b[1], q: b[2], o: b[3], r: b[4] || '', e: b[5] || '', p: b[6] || null, src: b[7] || '', img: b[8] || '' };
     cnt[t.s] = (cnt[t.s] || 0) + 1; t.id = t.s + '-' + cnt[t.s]; TASKS.push(t); };
   (window.TASKS_BASE || []).forEach(add); (window.TASKS_EXTRA || []).forEach(add); (window.TASKS_REAL || []).forEach(add);
 })();
@@ -247,7 +247,7 @@ function viewFC() {
 /* ── единый тренажёр вопросов ── */
 function taskItem(t) {
   const ord = shuffle(t.o.map((_, i) => i));
-  return { kind: 'task', id: t.id, s: t.s, topic: t.t, zh: t.q, ru: t.r, pre: t.p ? PAS[t.p] : null, src: t.src,
+  return { kind: 'task', id: t.id, s: t.s, topic: t.t, zh: t.q, ru: t.r, pre: t.p ? PAS[t.p] : null, src: t.src, img: t.img,
     opts: ord.map(i => ({ html: fmt(t.o[i]), zh: true })), c: ord.indexOf(0), e: t.e };
 }
 function drillItems(s, ti) {
@@ -295,6 +295,7 @@ function viewRun() {
   if (it.kind === 'audio') prompt = `<div class="center">${TTS ? `<button class="btn big-spk" data-act="speak" data-arg="${esc(it.w.zh)}">${ICON_SPK} Прослушать ещё раз</button>` : ''}</div>`;
   else if (it.kind === 'word') prompt = it.rev ? `<div class="fr">${esc(it.ru)}</div>` : `<div class="fz zh">${esc(it.zh)}</div>`;
   else prompt = `<p class="stem zh">${fmt(it.zh)}</p>`;
+  if (it.img) prompt += figHtml(it.img);
   const pre = it.pre ? `<div class="passage"><div class="pl">阅读短文 · ТЕКСТ ${spkBtn(it.pre.zh)}</div><div class="zh">${esc(it.pre.zh)}</div>${r.showTr ? `<div class="tr">${esc(it.pre.ru)}</div>` : ''}</div>` : '';
   const canTr = (it.kind === 'task' || it.kind === 'cloze');
   const tr = canTr ? (r.showTr || locked ? (it.ru ? `<div class="tr">${fmt(it.ru)}</div>` : `<div class="tr muted">Перевода нет — нажимайте на подчёркнутые слова.</div>`) : '') : '';
@@ -366,7 +367,7 @@ function viewResult() {
     const pill = a === undefined ? `<span class="pill2 sk">нет ответа · ${L[it.c]}</span>` : good ? `<span class="pill2 ok">${L[a]} верно</span>` : `<span class="pill2 no">${L[a]} → ${L[it.c]}</span>`;
     const head = it.kind === 'word' || it.kind === 'audio' ? `${esc(it.w.zh)} · ${esc(it.w.ru)}` : plain(it.full || it.zh);
     return `<details class="rv"><summary><span class="n mono">${i + 1}</span><span class="s zh">${esc(head)}</span>${pill}</summary><div class="rvb">
-      ${it.kind === 'task' ? `<p class="zh">${fmt(it.zh)}</p><p class="zh">${it.opts.map((o, k) => L[k] + '. ' + o.html).join('　')}</p>${it.ru ? `<p class="muted">${fmt(it.ru)}</p>` : ''}<p><b>Разбор.</b> ${fmt(it.e)}</p>` :
+      ${it.kind === 'task' ? `<p class="zh">${fmt(it.zh)}</p>${it.img ? figHtml(it.img) : ''}<p class="zh">${it.opts.map((o, k) => L[k] + '. ' + o.html).join('　')}</p>${it.ru ? `<p class="muted">${fmt(it.ru)}</p>` : ''}<p><b>Разбор.</b> ${fmt(it.e)}</p>` :
         it.kind === 'cloze' || it.kind === 'trans' ? `<p class="zh">${esc(it.full)}</p><p class="muted">${esc(it.ru)}</p>` : `<p>${esc(it.w.py)} ${spkBtn(it.w.zh)}</p>`}</div></details>`;
   }).join('');
   const wrongTasks = r.items.filter((it, i) => it.kind === 'task' && r.ans[i] !== it.c).length;
@@ -727,6 +728,7 @@ function viewSubjWords(s) {
     <div class="acts"><button class="btn dark" data-act="lx" data-arg="lesson|${s}">Урок по всему предмету</button></div>${exGrid(s)}<div class="tlist">${rows}</div>`;
 }
 
+function figHtml(src) { return src.split(',').map(x => `<figure class="qimg"><img src="${esc(x)}" alt="Рисунок к заданию" loading="lazy"></figure>`).join(''); }
 /* ───── реальные экзамены ───── */
 function realList(s) {
   const ex = (window.REAL_EXAMS || []).filter(e => e.s === s).sort((a, b) => b.d.localeCompare(a.d));

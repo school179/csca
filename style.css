@@ -326,3 +326,6 @@ rt { font: 11px var(--ui); color: var(--ink2); }
 .ktip b { color: var(--accent); }
 .steps { display: grid; gap: 8px; margin-bottom: 16px; }
 .tag.real { background: var(--accentS); color: var(--accent); }
+.qimg { margin: 4px 0 14px; text-align: center; }
+.qimg img { max-width: 100%; max-height: 340px; border-radius: 8px; background: #fff; padding: 6px; border: 1px solid var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .qimg img { filter: brightness(.92); } }
